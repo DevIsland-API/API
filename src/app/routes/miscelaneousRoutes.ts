@@ -1,8 +1,10 @@
 import { Router } from "express";
+import "../config/dotenv";
 
 export const miscelaneousRoutes = (): Router => {
   const route = Router();
 
+  console.log("uau");
   route.get("/", (request, response) => {
     return response.status(200).send({
       env: process.env.NODE_ENV,
