@@ -1,10 +1,12 @@
 import { Router } from "express";
 import "../config/dotenv";
-import { CreateFormController } from "../controllers/management/CreateFormController";
-import { DeleteFormController } from "../controllers/management/DeleteFormController";
-import { GetFormController } from "../controllers/management/GetFormController";
-import { ListFormController } from "../controllers/management/ListFormController";
-import { UpdateFormController } from "../controllers/management/UpdateFormController";
+import {
+  CreateFormController,
+  DeleteFormController,
+  GetFormController,
+  ListFormController,
+  UpdateFormController,
+} from "../controllers";
 
 export const formRoutes = (): Router => {
   const route = Router();
