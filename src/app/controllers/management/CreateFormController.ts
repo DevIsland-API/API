@@ -1,4 +1,4 @@
-import { CreateFormService } from "@/app/services/CreateFormService";
+import { CreateFormService } from "@/app/services/management/CreateFormService";
 import { Request, Response } from "express";
 
 export class CreateFormController {
@@ -10,7 +10,7 @@ export class CreateFormController {
 
       return response
         .status(200)
-        .send({ message: "Chamado criado com sucesso", created: createdForm });
+        .send({ message: "Chamado criado com sucesso!", created: createdForm });
     } catch (error) {
       console.log("error -->", error);
       return response.status(500).send({ error: "Internal Server Error" });
