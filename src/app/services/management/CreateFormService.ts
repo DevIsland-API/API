@@ -1,3 +1,4 @@
+import { encode } from "node-base64-image";
 import { Chamado } from "../../entities/Chamado";
 import { FormRepository } from "../../repositories/FormRepository";
 
@@ -7,6 +8,10 @@ export class CreateFormService {
     // assembler para tratamento do body
     // const assembledForm = createFormAssembler().build()
 
-    return await FormRepository.createForm(form);
+    const encodedImage = await encode(form.image);
+
+    return await FormRepository.createForm(
+      Object.assign({}, form, { imagem: encodedImage })
+    );
   }
 }
