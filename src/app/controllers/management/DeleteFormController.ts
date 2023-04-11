@@ -1,4 +1,4 @@
-import { DeleteFormService } from "@/app/services/DeleteFormService";
+import { DeleteFormService } from "@/app/services/management/DeleteFormService";
 import { Request, Response } from "express";
 import { IDeleteFormDTO } from "./dto/DeleteFormDTO";
 
