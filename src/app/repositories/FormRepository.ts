@@ -14,7 +14,23 @@ export class FormRepository {
     }
   }
 
-  static async findById(formId: number): Promise<Chamado> {
+  static async getOne(formId: number): Promise<Chamado> {
+    try {
+      const foundForm = await Chamado.findOne({
+        relations: { usuario: true },
+        where: {
+          id: formId,
+        },
+      });
+
+      return foundForm;
+    } catch (error) {
+      console.log(error);
+      throw new Error();
+    }
+  }
+
+  static async internalFindById(formId: number): Promise<Chamado> {
     try {
       const foundForm = await Chamado.findOne({
         where: {
@@ -44,12 +60,31 @@ export class FormRepository {
 
   static async update(formId: number, form: any): Promise<any> {
     try {
-      const foundForm = await this.findById(formId);
+      const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
         throw new Error();
       }
 
       return await Chamado.update({ id: formId }, form);
+    } catch (error) {
+      console.log(error);
+      throw new Error();
+    }
+  }
+
+  static async deactivate(formId: number): Promise<any> {
+    try {
+      const foundForm = await this.internalFindById(formId);
+      if (!foundForm) {
+        throw new Error();
+      }
+
+      return await Chamado.update(
+        { id: formId },
+        {
+          status: 0,
+        }
+      );
     } catch (error) {
       console.log(error);
       throw new Error();
