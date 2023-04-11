@@ -1,4 +1,4 @@
-import { ListFormService } from "@/app/services/ListFormService";
+import { ListFormService } from "@/app/services/management/ListFormService";
 import { Request, Response } from "express";
 
 export class ListFormController {
