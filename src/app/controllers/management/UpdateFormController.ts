@@ -1,4 +1,4 @@
-import { CreateFormService } from "@/app/services/CreateFormService";
+import { CreateFormService } from "@/app/services/management/CreateFormService";
 import { Request, Response } from "express";
 
 export class UpdateFormController {
