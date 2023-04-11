@@ -1,4 +1,4 @@
-import { GetFormService } from "@/app/services/GetFormService";
+import { GetFormService } from "@/app/services/management/GetFormService";
 import { Request, Response } from "express";
 import { IGetFormDTO } from "./dto/GetFormDTO";
 
