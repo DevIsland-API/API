@@ -1,10 +1,14 @@
-import { CreateFormService } from "@/app/services/management/CreateFormService";
 import { Request, Response } from "express";
+import { CreateFormService } from "../../services/management/CreateFormService";
+import { ICreateFormDTO } from "./dto/CreateFormDTO";
 
 export class CreateFormController {
-  static async handle(request: Request, response: Response): Promise<Response> {
+  static async handle(
+    request: Request<ICreateFormDTO>,
+    response: Response
+  ): Promise<Response> {
     try {
-      const form = request.body;
+      const form = request.body as ICreateFormDTO;
 
       const createdForm = await CreateFormService.execute(form);
 
