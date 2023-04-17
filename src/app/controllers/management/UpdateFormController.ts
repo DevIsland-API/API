@@ -1,17 +1,21 @@
-import { CreateFormService } from "@/app/services/management/CreateFormService";
 import { Request, Response } from "express";
+import { UpdateFormService } from "../../services/management/UpdateFormService";
+import { IUpdateFormDTO } from "./dto/UpdateFormDTO";
 
 export class UpdateFormController {
-  static async handle(request: Request, response: Response): Promise<Response> {
+  static async handle(
+    request: Request<IUpdateFormDTO>,
+    response: Response
+  ): Promise<Response> {
     try {
-      const form = request.body;
-      const formId = request.params.id;
-
-      const createdForm = await CreateFormService.execute(form);
+      const updatedForm = await UpdateFormService.execute(
+        request.params.id,
+        request.body
+      );
 
       return response.status(200).send({
         message: "Chamado atualizado com sucesso!",
-        created: createdForm,
+        created: updatedForm,
       });
     } catch (error) {
       console.log("error -->", error);
