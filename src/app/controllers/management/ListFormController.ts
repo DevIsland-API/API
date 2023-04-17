@@ -1,5 +1,5 @@
-import { ListFormService } from "@/app/services/management/ListFormService";
 import { Request, Response } from "express";
+import { ListFormService } from "../../services/management/ListFormService";
 
 export class ListFormController {
   static async handle(request: Request, response: Response): Promise<Response> {
