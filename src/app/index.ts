@@ -3,6 +3,10 @@ import "./config/dotenv";
 import { appRoutes } from "./routes";
 const app = express();
 
+import { verifyEntitiesInDatabase } from "./helper/VerifyEntitiesInDatabase";
+
+verifyEntitiesInDatabase();
+
 app.use(express.json());
 app.use(appRoutes());
 
