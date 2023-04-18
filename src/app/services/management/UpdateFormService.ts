@@ -1,11 +1,21 @@
+import { IUpdateFormDTO } from "../../controllers/management/dto/UpdateFormDTO";
 import { Chamado } from "../../entities/Chamado";
+import { FileRepository } from "../../repositories/FileRepository";
 import { FormRepository } from "../../repositories/FormRepository";
 
 export class UpdateFormService {
-  static async execute(form: any, formId: number): Promise<Chamado> {
-    // validação
-    // assembler para tratamento do body
+  static async execute(
+    formId: number,
+    receivedForm: IUpdateFormDTO
+  ): Promise<Chamado> {
+    const form = await FormRepository.update(formId, receivedForm);
+    const file = await FileRepository.create(
+      receivedForm.id,
+      receivedForm.arquivo
+    );
 
-    return await FormRepository.update(formId, form);
+    const updatedForm = Object.assign({}, form, { arquivo: file.id });
+
+    return updatedForm;
   }
 }

@@ -1,4 +1,3 @@
-import "../";
 const config = {
   type: "mysql",
   host: process.env.DB_HOST,

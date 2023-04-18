@@ -1,3 +1,5 @@
+import { ICreateFormDTO } from "../controllers/management/dto/CreateFormDTO";
+import { IUpdateFormDTO } from "../controllers/management/dto/UpdateFormDTO";
 import { Chamado } from "../entities/Chamado";
 
 export class FormRepository {
@@ -49,7 +51,7 @@ export class FormRepository {
     }
   }
 
-  static async createForm(form: any): Promise<Chamado> {
+  static async createForm(form: ICreateFormDTO): Promise<Chamado> {
     try {
       return await Chamado.create(form).save();
     } catch (error) {
@@ -58,7 +60,7 @@ export class FormRepository {
     }
   }
 
-  static async update(formId: number, form: any): Promise<any> {
+  static async update(formId: number, form: IUpdateFormDTO): Promise<any> {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {

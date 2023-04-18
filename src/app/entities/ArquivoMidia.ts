@@ -13,8 +13,8 @@ export class ArquivoMidia extends BaseEntity {
   @PrimaryGeneratedColumn({ name: "id" })
   id: number;
 
-  @Column({ name: "nome" })
-  nome: string;
+  @Column({ name: "arquivo" })
+  arquivo: string;
 
   @Column({ name: "id_chamado" })
   idChamado: number;
