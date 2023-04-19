@@ -1,8 +1,6 @@
-import { ConnectionOptions, DataSource, createConnection } from "typeorm";
+import { ConnectionOptions, createConnection } from "typeorm";
 
-import * as config from "../app/config/ormconfig";
-
-export const connection = new DataSource(config as ConnectionOptions);
+import config from "../../ormconfig";
 
 if (process.env.NODE_ENV !== "test") {
   createConnection(config as ConnectionOptions)
