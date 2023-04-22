@@ -5,9 +5,8 @@ import { Chamado } from "../entities/Chamado";
 export class FormRepository {
   static async getAll(): Promise<Chamado[]> {
     try {
-      const foundForm = await Chamado.find({
-        relations: { usuario: true },
-      });
+      // Relacionamento com a entidade de usuario não está funcionando. Precisa de correção
+      const foundForm = await Chamado.find();
 
       return foundForm;
     } catch (error) {
@@ -19,7 +18,6 @@ export class FormRepository {
   static async getOne(formId: number): Promise<Chamado> {
     try {
       const foundForm = await Chamado.findOne({
-        relations: { usuario: true },
         where: {
           id: formId,
         },
@@ -60,33 +58,38 @@ export class FormRepository {
     }
   }
 
-  static async update(formId: number, form: IUpdateFormDTO): Promise<any> {
+  static async update(formId: number, form: IUpdateFormDTO): Promise<Chamado> {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
         throw new Error();
       }
 
-      return await Chamado.update({ id: formId }, form);
+      delete form.arquivo;
+
+      await Chamado.update({ id: formId }, form);
+      return await this.internalFindById(formId);
     } catch (error) {
       console.log(error);
       throw new Error();
     }
   }
 
-  static async deactivate(formId: number): Promise<any> {
+  static async deactivate(formId: number): Promise<Chamado> {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
         throw new Error();
       }
 
-      return await Chamado.update(
+      await Chamado.update(
         { id: formId },
         {
           status: 0,
         }
       );
+
+      return await this.internalFindById(formId);
     } catch (error) {
       console.log(error);
       throw new Error();

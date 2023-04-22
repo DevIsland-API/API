@@ -1,7 +1,7 @@
-import { connection } from "../../database";
+import { getConnection } from "typeorm";
 
 export const verifyEntitiesInDatabase = async (): Promise<void> => {
-  const initConnection = await connection.initialize();
+  const initConnection = await getConnection();
   const entitiesInDatabase = initConnection.entityMetadatas.map(
     (entity) => entity.tableName
   );

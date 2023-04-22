@@ -5,16 +5,17 @@ const config = {
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  migrations: ["./src/database/migrations"],
   entities:
     process.env.NODE_ENV === "local"
-      ? ["../entities/*.ts"]
-      : ["../../dist/src/app/entities/*.js"],
+      ? ["./src/app/entities/*.{js,ts}"]
+      : ["./dist/src/app/entities/*.{js,ts}"],
   cli: {
-    migrationsDir: "../database/migrations",
+    migrationsDir: "./src/database/migrations",
   },
   synchronize: false,
   logging: true,
   timezone: "America/Sao_Paulo",
 };
 
-module.exports = config;
+export default config;
