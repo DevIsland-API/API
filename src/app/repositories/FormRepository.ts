@@ -18,7 +18,6 @@ export class FormRepository {
   static async getOne(formId: number): Promise<Chamado> {
     try {
       const foundForm = await Chamado.findOne({
-        relations: { Usuario: true },
         where: {
           id: formId,
         },
