@@ -75,19 +75,21 @@ export class FormRepository {
     }
   }
 
-  static async deactivate(formId: number): Promise<any> {
+  static async deactivate(formId: number): Promise<Chamado> {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
         throw new Error();
       }
 
-      return await Chamado.update(
+      await Chamado.update(
         { id: formId },
         {
           status: 0,
         }
       );
+
+      return await this.internalFindById(formId);
     } catch (error) {
       console.log(error);
       throw new Error();
