@@ -60,14 +60,17 @@ export class FormRepository {
     }
   }
 
-  static async update(formId: number, form: IUpdateFormDTO): Promise<any> {
+  static async update(formId: number, form: IUpdateFormDTO): Promise<Chamado> {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
         throw new Error();
       }
 
-      return await Chamado.update({ id: formId }, form);
+      delete form.arquivo;
+
+      await Chamado.update({ id: formId }, form);
+      return await this.internalFindById(formId);
     } catch (error) {
       console.log(error);
       throw new Error();
