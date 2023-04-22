@@ -8,13 +8,10 @@ export class UpdateFormService {
     formId: number,
     receivedForm: IUpdateFormDTO
   ): Promise<Chamado> {
+    const file = await FileRepository.update(formId, receivedForm.arquivo);
     const form = await FormRepository.update(formId, receivedForm);
-    const file = await FileRepository.create(
-      receivedForm.id,
-      receivedForm.arquivo
-    );
 
-    const updatedForm = Object.assign({}, form, { arquivo: file.id });
+    const updatedForm = Object.assign({}, form, { arquivo: file.arquivo });
 
     return updatedForm;
   }
