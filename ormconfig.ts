@@ -18,5 +18,4 @@ const config = {
   timezone: "America/Sao_Paulo",
 };
 
-console.log("config", config);
 export default config;
