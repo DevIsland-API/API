@@ -5,8 +5,6 @@ import { FormRepository } from "../../repositories/FormRepository";
 
 export class CreateFormService {
   static async execute(receivedForm: ICreateFormDTO): Promise<Chamado> {
-    // let formToCreate;
-    // formToCreate = formToCreate.omit(receivedForm.arquivo);
     const form = await FormRepository.createForm(receivedForm);
     const file = await FileRepository.create(form.id, receivedForm.arquivo);
 
