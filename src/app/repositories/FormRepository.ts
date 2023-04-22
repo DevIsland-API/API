@@ -5,9 +5,8 @@ import { Chamado } from "../entities/Chamado";
 export class FormRepository {
   static async getAll(): Promise<Chamado[]> {
     try {
-      const foundForm = await Chamado.find({
-        relations: { usuario: true },
-      });
+      // Relacionamento com a entidade de usuario não está funcionando. Precisa de correção
+      const foundForm = await Chamado.find();
 
       return foundForm;
     } catch (error) {
@@ -19,7 +18,7 @@ export class FormRepository {
   static async getOne(formId: number): Promise<Chamado> {
     try {
       const foundForm = await Chamado.findOne({
-        relations: { usuario: true },
+        relations: { Usuario: true },
         where: {
           id: formId,
         },
