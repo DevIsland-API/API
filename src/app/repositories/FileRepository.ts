@@ -1,4 +1,6 @@
 import { ArquivoMidia } from "../entities/ArquivoMidia";
+import { ErrorMessages } from "../shared/error/ErrorMessages";
+import { InternalServerError } from "../validations/InternalServerError";
 
 export class FileRepository {
   static async getAllByForm(formId: number): Promise<ArquivoMidia[]> {
@@ -12,7 +14,7 @@ export class FileRepository {
       return foundFile;
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -27,7 +29,7 @@ export class FileRepository {
       return foundFile;
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -38,8 +40,8 @@ export class FileRepository {
         idChamado: formId,
       }).save();
     } catch (error) {
-      console.log("error -->", error);
-      throw new Error();
+      console.log(error);
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -48,8 +50,8 @@ export class FileRepository {
       await ArquivoMidia.update({ idChamado: formId }, { arquivo: fileName });
       return await this.getOneByForm(formId);
     } catch (error) {
-      console.log("error -->", error);
-      throw new Error();
+      console.log(error);
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 }
