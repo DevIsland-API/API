@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateFormService } from "../../services/management/CreateFormService";
+import { ApplicationError } from "../../shared/error/ApplicationError";
 import { ICreateFormDTO } from "./dto/CreateFormDTO";
 
 export class CreateFormController {
@@ -17,7 +18,9 @@ export class CreateFormController {
         .send({ message: "Chamado criado com sucesso!", created: createdForm });
     } catch (error) {
       console.log("error -->", error);
-      return response.status(500).send({ error: "Internal Server Error" });
+      if (error instanceof ApplicationError) {
+        return response.status(error.statusCode).send(error.message);
+      }
     }
   }
 }
