@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { ListFormService } from "../../services/management/ListFormService";
+import { ListTeamService } from "../../services/team/ListTeamService";
 import { ApplicationError } from "../../shared/error/ApplicationError";
 
-export class ListFormController {
+export class ListTeamController {
   static async handle(request: Request, response: Response): Promise<Response> {
     try {
-      const listForm = await ListFormService.execute();
+      const listTeam = await ListTeamService.execute();
 
-      return response.status(200).send(listForm);
+      return response.status(200).send(listTeam);
     } catch (error) {
       console.log("error -->", error);
       if (error instanceof ApplicationError) {

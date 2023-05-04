@@ -1,19 +1,22 @@
 import { Request, Response } from "express";
-import { DeleteFormService } from "../../services/management/DeleteFormService";
+import { UpdateTeamService } from "../../services/team/UpdateTeamService";
 import { ApplicationError } from "../../shared/error/ApplicationError";
-import { IDeleteFormDTO } from "./dto/DeleteFormDTO";
+import { IUpdateTeamDTO } from "./dto/UpdateTeamDTO";
 
-export class DeleteFormController {
+export class UpdateTeamController {
   static async handle(
-    request: Request<IDeleteFormDTO>,
+    request: Request<IUpdateTeamDTO>,
     response: Response
   ): Promise<Response> {
     try {
-      const deletedForm = await DeleteFormService.execute(request.params.id);
+      const updatedTeam = await UpdateTeamService.execute(
+        request.params.id,
+        request.body as IUpdateTeamDTO
+      );
 
       return response.status(200).send({
-        message: "Chamado desativado com sucesso!",
-        created: deletedForm,
+        message: "Time atualizado com sucesso!",
+        created: updatedTeam,
       });
     } catch (error) {
       console.log("error -->", error);

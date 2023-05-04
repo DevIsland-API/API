@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
-import { DeleteFormService } from "../../services/management/DeleteFormService";
+import { ReactivateFormService } from "../../services/management/ReactivateFormService";
 import { ApplicationError } from "../../shared/error/ApplicationError";
-import { IDeleteFormDTO } from "./dto/DeleteFormDTO";
+import { IReactivateFormDTO } from "./dto/ReactivateFormDTO";
 
-export class DeleteFormController {
+export class ReactivateFormController {
   static async handle(
-    request: Request<IDeleteFormDTO>,
+    request: Request<IReactivateFormDTO>,
     response: Response
   ): Promise<Response> {
     try {
-      const deletedForm = await DeleteFormService.execute(request.params.id);
+      const deletedForm = await ReactivateFormService.execute(
+        request.params.id
+      );
 
       return response.status(200).send({
         message: "Chamado desativado com sucesso!",

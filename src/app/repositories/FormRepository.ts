@@ -1,17 +1,19 @@
 import { ICreateFormDTO } from "../controllers/management/dto/CreateFormDTO";
 import { IUpdateFormDTO } from "../controllers/management/dto/UpdateFormDTO";
 import { Chamado } from "../entities/Chamado";
+import { FormDoesNotExists } from "../exceptions/FormDoesNotExists";
+import { ErrorMessages } from "../shared/error/ErrorMessages";
+import { InternalServerError } from "../validations/InternalServerError";
 
 export class FormRepository {
   static async getAll(): Promise<Chamado[]> {
     try {
-      // Relacionamento com a entidade de usuario não está funcionando. Precisa de correção
       const foundForm = await Chamado.find();
 
       return foundForm;
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -26,7 +28,7 @@ export class FormRepository {
       return foundForm;
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -45,7 +47,7 @@ export class FormRepository {
       return foundForm;
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -54,7 +56,7 @@ export class FormRepository {
       return await Chamado.create(form).save();
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -62,7 +64,7 @@ export class FormRepository {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
-        throw new Error();
+        throw new FormDoesNotExists(ErrorMessages.FORM_DOES_NOT_EXISTS);
       }
 
       delete form.arquivo;
@@ -71,7 +73,7 @@ export class FormRepository {
       return await this.internalFindById(formId);
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 
@@ -79,7 +81,7 @@ export class FormRepository {
     try {
       const foundForm = await this.internalFindById(formId);
       if (!foundForm) {
-        throw new Error();
+        throw new FormDoesNotExists(ErrorMessages.FORM_DOES_NOT_EXISTS);
       }
 
       await Chamado.update(
@@ -92,7 +94,28 @@ export class FormRepository {
       return await this.internalFindById(formId);
     } catch (error) {
       console.log(error);
-      throw new Error();
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
+    }
+  }
+
+  static async reactivate(formId: number): Promise<Chamado> {
+    try {
+      const foundForm = await this.internalFindById(formId);
+      if (!foundForm) {
+        throw new FormDoesNotExists(ErrorMessages.FORM_DOES_NOT_EXISTS);
+      }
+
+      await Chamado.update(
+        { id: formId },
+        {
+          status: 1,
+        }
+      );
+
+      return await this.internalFindById(formId);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerError(ErrorMessages.DB_ERROR + error);
     }
   }
 }

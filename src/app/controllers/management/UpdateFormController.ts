@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateFormService } from "../../services/management/UpdateFormService";
+import { ApplicationError } from "../../shared/error/ApplicationError";
 import { IUpdateFormDTO } from "./dto/UpdateFormDTO";
 
 export class UpdateFormController {
@@ -19,7 +20,9 @@ export class UpdateFormController {
       });
     } catch (error) {
       console.log("error -->", error);
-      return response.status(500).send({ error: "Internal Server Error" });
+      if (error instanceof ApplicationError) {
+        return response.status(error.statusCode).send(error.message);
+      }
     }
   }
 }

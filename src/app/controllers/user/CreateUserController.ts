@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { CreateUserService } from "../../services/user/CreateUserService";
+import { ApplicationError } from "../../shared/error/ApplicationError";
 import { ICreateUserDTO } from "./dto/CreateUserDTO";
 
 export class CreateUserController {
@@ -7,17 +9,18 @@ export class CreateUserController {
     response: Response
   ): Promise<Response> {
     try {
-      const { name, email, password, passwordConfirmation } =
-        request.body as ICreateUserDTO;
-
-      //   const createdForm = await CreateFormService.execute(form);
+      const userToCreate = request.body as ICreateUserDTO;
+      const userCreated = await CreateUserService.execute(userToCreate);
+      delete userCreated.senha;
 
       return response
         .status(200)
-        .send({ message: "Usuário criado com sucesso!", created: "yay" });
+        .send({ message: "Usuário criado com sucesso!", created: userCreated });
     } catch (error) {
       console.log("error -->", error);
-      return response.status(500).send({ error: "Internal Server Error" });
+      if (error instanceof ApplicationError) {
+        return response.status(error.statusCode).send(error.message);
+      }
     }
   }
 }

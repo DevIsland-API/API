@@ -1,21 +1,21 @@
 import { Request, Response } from "express";
-import { CreateFormService } from "../../services/management/CreateFormService";
+import { CreateTeamService } from "../../services/team/CreateTeamService";
 import { ApplicationError } from "../../shared/error/ApplicationError";
-import { ICreateFormDTO } from "./dto/CreateFormDTO";
+import { ICreateTeamDTO } from "./dto/CreateTeamDTO";
 
-export class CreateFormController {
+export class CreateTeamController {
   static async handle(
-    request: Request<ICreateFormDTO>,
+    request: Request<ICreateTeamDTO>,
     response: Response
   ): Promise<Response> {
     try {
-      const form = request.body as ICreateFormDTO;
+      const team = request.body as ICreateTeamDTO;
 
-      const createdForm = await CreateFormService.execute(form);
+      const createdTeam = await CreateTeamService.execute(team);
 
       return response
         .status(200)
-        .send({ message: "Chamado criado com sucesso!", created: createdForm });
+        .send({ message: "Time criado com sucesso!", created: createdTeam });
     } catch (error) {
       console.log("error -->", error);
       if (error instanceof ApplicationError) {
