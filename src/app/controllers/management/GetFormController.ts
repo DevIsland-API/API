@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { GetFormService } from "../../services/management/GetFormService";
+import { ApplicationError } from "../../shared/error/ApplicationError";
 import { IGetFormDTO } from "./dto/GetFormDTO";
 
 export class GetFormController {
@@ -13,7 +14,9 @@ export class GetFormController {
       return response.status(200).send(getForm);
     } catch (error) {
       console.log("error -->", error);
-      return response.status(500).send({ error: "Internal Server Error" });
+      if (error instanceof ApplicationError) {
+        return response.status(error.statusCode).send(error.message);
+      }
     }
   }
 }
