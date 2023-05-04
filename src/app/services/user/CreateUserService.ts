@@ -1,8 +1,8 @@
-import { ICreateUserDTO } from "@/app/controllers/user/dto/CreateUserDTO";
-import { Usuario } from "@/app/entities/Usuario";
-import { UserRepository } from "@/app/repositories/UserRepository";
-import { UserValidation } from "@/app/validations/UserValidation";
 import bcrypt from "bcrypt";
+import { ICreateUserDTO } from "../../controllers/user/dto/CreateUserDTO";
+import { Usuario } from "../../entities/Usuario";
+import { UserRepository } from "../../repositories/UserRepository";
+import { UserValidation } from "../../validations/UserValidation";
 
 export class CreateUserService {
   static async execute({
@@ -10,11 +10,22 @@ export class CreateUserService {
     email,
     password,
     passwordConfirmation,
+    nivelAcesso,
+    idTime,
   }: ICreateUserDTO): Promise<Usuario> {
+    // Validações
     UserValidation.isPasswordsEqual(password, passwordConfirmation);
     UserValidation.isEmailValid(email);
+    await UserValidation.isEmailAlreadyTaken(email);
 
-    const userData = { name, email, password, passwordConfirmation };
+    const userData = {
+      name,
+      email,
+      password,
+      passwordConfirmation,
+      nivelAcesso,
+      idTime,
+    };
     const hashPassword = await bcrypt.hash(password, 12);
 
     const user = await UserRepository.create(
