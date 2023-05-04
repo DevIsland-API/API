@@ -3,4 +3,6 @@ export interface ICreateUserDTO {
   email: string;
   password: string;
   passwordConfirmation: string;
+  nivelAcesso?: number;
+  idTime: number;
 }
